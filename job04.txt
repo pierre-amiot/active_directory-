@@ -1,0 +1,123 @@
+Récupération des comptes inactifs
+script theorique 
+
+# Importer le module Active Directory
+Import-Module ActiveDirectory
+
+# Définir la durée d'inactivité en jours
+$daysInactive = 90
+
+# Récupérer la date limite d'inactivité
+$inactiveDate = (Get-Date).AddDays(-$daysInactive)
+
+# Récupérer tous les utilisateurs inactifs
+$inactiveUsers = Get-ADUser -Filter {LastLogonTimeStamp -lt $inactiveDate -and enabled -eq $true} -Properties LastLogonTimeStamp
+
+# Afficher les comptes inactifs
+$inactiveUsers | Select-Object Name, SamAccountName, LastLogonTimeStamp
+
+# Exporter les résultats vers un fichier CSV
+$inactiveUsers | Select-Object Name, SamAccountName, LastLogonTimeStamp | Export-Csv -Path "C:\Chemin\vers\le\fichier.csv" -NoTypeInformation
+
+Ce script utilise le module Active Directory de PowerShell pour interroger l'Active Directory et récupérer les comptes d'utilisateurs inactifs. Il définit une durée d'inactivité en jours (dans cet exemple, 90 jours) et récupère la date limite d'inactivité en soustrayant cette durée à la date actuelle.
+
+Ensuite, il utilise la cmdlet Get-ADUser pour récupérer tous les utilisateurs qui ont une valeur LastLogonTimeStamp inférieure à la date limite d'inactivité et dont le compte est activé. Les résultats incluent le nom de l'utilisateur, le nom de compte (SamAccountName) et la valeur LastLogonTimeStamp.
+
+
+
+
+
+
+script 2) Identifications des doublons
+
+# Liste d'éléments
+$elements = "A", "B", "C", "A", "D", "E", "B", "F"
+
+# Tableau pour stocker les éléments en double
+$duplicates = @()
+
+# Tableau pour stocker les éléments déjà traités
+$processed = @()
+
+# Parcourir chaque élément dans la liste
+foreach ($element in $elements) {
+    # Vérifier si l'élément a déjà été traité
+    if ($processed -contains $element) {
+        # Ajouter l'élément dans le tableau des doublons s'il n'est pas déjà présent
+        if ($duplicates -notcontains $element) {
+            $duplicates += $element
+        }
+    }
+    else {
+        # Ajouter l'élément dans le tableau des éléments traités
+        $processed += $element
+    }
+}
+
+# Afficher les doublons
+Write-Host "Doublons trouvés :"
+$duplicates
+
+
+
+script 3) Alerte quand il y a des connexions après certaines heures
+
+# Heure de référence pour définir l'alerte
+$heureLimite = "18:00"
+
+# Récupérer la liste des connexions récentes
+$recentLogins = Get-WinEvent -FilterHashtable @{LogName='Security'; ID=4624} -MaxEvents 100 |
+               Where-Object { $_.TimeCreated -gt (Get-Date).AddHours(-2) } |
+               Select-Object -ExpandProperty Properties
+
+# Parcourir chaque connexion récente
+foreach ($login in $recentLogins) {
+    # Récupérer la date et l'heure de la connexion
+    $dateConnexion = [DateTime]::Parse($login[5])
+
+    # Vérifier si l'heure de connexion dépasse l'heure limite
+    if ($dateConnexion.TimeOfDay -gt $heureLimite) {
+        # Afficher une alerte avec les détails de la connexion
+        Write-Host "Alerte : Connexion après l'heure limite détectée"
+        Write-Host "Nom de compte : $($login[1])"
+        Write-Host "Heure de connexion : $($dateConnexion.ToString())"
+        Write-Host ""
+
+
+script 4) Alerte lorsque plus de 3 modifications sont faites dans une journée sur un fichier
+
+# Chemin d'accès complet au fichier à surveiller
+$cheminFichier = "C:\Chemin\vers\le\fichier.txt"
+
+# Date de référence pour les modifications
+$dateReference = Get-Date
+
+# Récupérer les informations sur les modifications du fichier pour la journée
+$modifications = Get-ChildItem -Path $cheminFichier |
+                 Where-Object { $_.LastWriteTime.Date -eq $dateReference.Date }
+
+# Vérifier le nombre de modifications
+if ($modifications.Count -gt 3) {
+    # Afficher une alerte
+    Write-Host "Alerte : Plus de 3 modifications détectées sur le fichier $cheminFichier aujourd'hui"
+    Write-Host "Nombre de modifications : $($modifications.Count)"
+
+
+
+Voici quelques idées supplémentaires pour renforcer la sécurité de votre système :
+
+1)Appliquer les correctifs et les mises à jour : Assurez-vous que votre système d'exploitation, vos applications et vos logiciels tiers sont à jour avec les derniers correctifs de sécurité. Les correctifs corrigent souvent les vulnérabilités connues et renforcent la sécurité de votre système.
+
+2)Utiliser des mots de passe forts : Encouragez l'utilisation de mots de passe complexes pour les comptes d'utilisateurs, en incluant des combinaisons de lettres, de chiffres et de caractères spéciaux. Envisagez également d'imposer des politiques de renouvellement régulier des mots de passe.
+
+
+3)Mise en place de l'authentification à deux facteurs (2FA) : L'authentification à deux facteurs ajoute une couche de sécurité supplémentaire en exigeant une deuxième méthode d'authentification, telle qu'un code généré par une application sur un appareil mobile, en plus du nom d'utilisateur et du mot de passe.
+
+4)Gestion des privilèges d'accès : Accordez des privilèges d'accès minimaux aux utilisateurs et aux comptes de service. Limitez l'accès aux ressources sensibles uniquement aux personnes qui en ont besoin pour effectuer leurs tâches.
+
+
+5)Surveillance et journaux d'audit : Mettez en place un système de surveillance pour suivre les activités suspectes, comme l'accès non autorisé ou les tentatives d'intrusion. Configurez également des journaux d'audit pour enregistrer les événements de sécurité importants et effectuez des analyses régulières des journaux pour détecter les schémas ou les incidents suspects.
+
+
+6)Pare-feu et filtrage du trafic : Utilisez un pare-feu pour contrôler le trafic réseau entrant et sortant. Configurez des règles de filtrage du trafic pour permettre uniquement les connexions nécessaires et bloquer les connexions non autorisées.
+

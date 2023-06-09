@@ -1,0 +1,33 @@
+1) Installation de windows serveur sur une machine windows
+
+POUR CET EXERCICE, changer le nom de votre VM avant de faire quoi que ce soit (comme on utilise tous le même modèle de VM, on a tous le même nom de base, ce qui n’est pas pratique)
+
+paramètres de windows > système > à propos > renommer ce pc
+
+2) Passage de la machine en contrôleur de domaine :
+
+gérer > ajouter des rôles et des fonctionnalités > sélection du serveur > rôles de serveurs, cocher Services AD DS > confirmation et installation (à la fin il va vous indiquer des avertissements mais ils ne sont pas problématiques vous pouvez valider)
+
+Une fois l’installation finie, fermer la fenêtre et cliquer sur le drapeau avec un « ! », puis « promouvoir en contrôleur de domaine » et suivre les étapes.
+
+3) Gestion des utilisateurs :
+
+Outils > Utilisateurs et ordinateurs Active directory > recréer l’arborescence voulue
+
+4) Administration des dossiers :
+
+Création d’un dossier serveur dans « Ce Pc » (sur le windows de la VM, pas le gestionnaire des utilisateurs), et à l’intérieur création des dossiers voulus (en l’occurrence un dossier Partage/Versements/Petits Versements et un dossier Sessions).
+
+Puis on modifie les droits de chaque dossier avec un clic droit > Propriétés > Sécurité
+
+5) Création d’une session pour les utilisateurs pour lesquels c’est nécessaire (ici tous) :
+
+Clic droit sur le dossier Sessions > propriétés > partage > partage avancé > ajouter un nom de partage > renommer avec un $ à la fin (Session$), ce qui permet d’indiquer à windows serveur que ça doit être un dossier caché.
+
+Toujours dans partage avancé, autorisations > sélectionner « tout le monde » (ou bien que les admins si on a ajouté d’autres personnes) > cocher contrôle total.
+
+Copier le chemin de partage, choisir les utilisateurs dans la gestion des utilisateurs, clic droit > Propriétés > profil > cocher « Dossier de base », sélectionner « connecter » et copier le chemin du dossier, en rajoutant \%username% à la fin, afin de lui spécifier qu’il n’a le droit de se connecter qu’au dossier de la session en cours (outre les dossiers partagés avec lui bien entendu).
+
+Pensez à modifier les droits du dossier personnel des clients, vu qu’ils ne peuvent que lire et non pas écrire.
+
+

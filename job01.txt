@@ -1,0 +1,49 @@
+
+
+
+Groupes d'utilisateurs :
+a) Guichetiers (Catégorie A)
+
+Membres : Employés affectés aux guichets
+Permissions :
+Accès en lecture seule sur les dossiers de versement
+Transmettre des flux, mais aucune action de création dans le dossier de versement
+b) Conseillers clientèle privés (Catégorie B)
+
+Membres : Conseillers clientèle privés
+Permissions :
+Toutes les opérations jusqu'à 10 000 euros (Versement - petit)
+c) Gestionnaires et conseillers de clientèle professionnelle (Catégorie C)
+
+Membres : Gestionnaires et conseillers de clientèle professionnelle
+Permissions :
+Toutes les opérations jusqu'à 10 000 euros (Versement - petit)
+Accès au versement de plus de 100 000 euros (lecture seule)
+Autorisation requise pour la création d'un nouveau versement de plus de 100 000 euros
+d) Personnel dirigeant (Catégorie D)
+
+Membres : Directeurs d’agence, DRH, experts-comptables, dirigeants
+Permissions :
+Toutes les opérations (Versement - petit et Versement - grand)
+e) Clients de la banque
+
+Membres : Clients de la banque
+Permissions :
+Accès en lecture seule à leur compte
+f) Informaticiens et prestataires
+
+Membres : Informaticiens et prestataires
+Permissions :
+Accès en lecture seule et exécution sur tous les systèmes
+Aucun accès en écriture
+g) Chefs de projet métier
+
+Membres : Chefs de projet métier
+Permissions :
+Modification des données dans les applications à volonté
+catégorie A verssement droit :/lire 
+categorie B verssement petit :droit / lire écrire executer 
+catégorie c verssement droit :/ lire 
+petit verssement droit :/ lire/écrire/executer
+catégorie D verssement petit verssement droit: lire/écrire /executer  
+

@@ -1,0 +1,17 @@
+Voici les étapes à suivre pour vous connecter à une autre machine virtuelle (VM) avec une installation Windows classique reliée à votre Active Directory :
+
+Assurez-vous que la machine virtuelle avec l'installation Windows classique est correctement configurée et connectée à votre réseau, y compris votre Active Directory.
+
+Sur votre poste client, assurez-vous que vous disposez des droits d'accès nécessaires pour vous connecter à la VM et accéder aux dossiers et opérations appropriés. Si vous ne disposez pas encore de ces droits, vous devrez les demander à l'administrateur du système.
+
+Obtenez l'adresse IP ou le nom d'hôte de la machine virtuelle Windows classique à laquelle vous souhaitez vous connecter. Vous pouvez obtenir cette information auprès de l'administrateur système ou en consultant la configuration de la VM.
+
+Sur votre poste client, ouvrez l'outil de connexion à distance approprié. Dans Windows, cet outil est appelé « Connexion Bureau à distance ».
+
+Saisissez l'adresse IP ou le nom d'hôte de la machine virtuelle Windows classique dans le champ approprié de l'outil de connexion à distance.
+
+Cliquez sur le bouton de connexion pour établir la connexion à la machine virtuelle.
+
+Si vous êtes invité à fournir vos informations d'identification, assurez-vous de sélectionner le domaine approprié dans lequel votre compte utilisateur est enregistré. Entrez ensuite votre nom d'utilisateur et votre mot de passe.
+
+Une fois connecté à la machine virtuelle, vous devriez avoir accès aux dossiers et aux opérations qui vous ont été accordés en fonction de vos droits d'accès dans l'Active Directory.
